@@ -1,6 +1,16 @@
 class AccordionElement {
-    constructor(title,text){
+    constructor({title = '', content = ''} ,dl){
       this.title = title;
-      this.text = text;
+      this.content = content;
+      this.dl = dl;
     }
-  }
+    init(){
+      const element = `
+        <dt class="accordion-header">${this.title}</dt>
+        <dd class="accordion-content"><p>${this.content}</p></dd>
+      `;
+      this.dl.insertAdjacentHTML('beforeend', element)
+    }
+}
+
+export default AccordionElement;

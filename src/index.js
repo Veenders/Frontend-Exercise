@@ -1,10 +1,11 @@
-import Accordion from './components/accordion'
-import './index.scss'
+import Accordion from './components/accordion';
+import AccordionService from './service/AccordionService';
+import './css/style.scss';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const dl = document.ElementById('accordion')
-  const accordion = new Accordion('accordion');
-  accordion.init()
+  const app = document.getElementById('App')
+  const service = new AccordionService('data/data.json');
+  new Accordion(app, service).init();
 })
 
 
