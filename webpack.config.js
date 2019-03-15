@@ -1,6 +1,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const GenerateJsonPlugin = require('generate-json-webpack-plugin');
+const data = require('./src/data/data.json');
 
 module.exports = (env, options) => ({
   entry: ["./src/index.js"],
@@ -39,7 +41,7 @@ module.exports = (env, options) => ({
         test: /img\.(jpe?g|png|gif|svg)$/i, 
         loader: "file-loader?name=/img/[name].[ext]"
       }
-    ]
+    ],
   },
   devServer: {
     contentBase: "./dist",
@@ -50,6 +52,7 @@ module.exports = (env, options) => ({
     new MiniCssExtractPlugin({
       filename: "[name].css",
       chunkFilename: "[id].css"
-    })
+    }),
+    new GenerateJsonPlugin('data/data.json', data)
   ]
 });
