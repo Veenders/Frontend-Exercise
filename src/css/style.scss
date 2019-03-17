@@ -1,5 +1,11 @@
 @import 'variables.scss';
+@import url('https://fonts.googleapis.com/css?family=Lora|Muli');
 
+html,
+body{
+  height: 100%;
+  width: 100%;
+}
 body {
   display: flex;
   flex-direction: column;
@@ -7,8 +13,17 @@ body {
   color: $primaryColor;
   margin: 0;
   padding: 0;
-  min-height: 100vh;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: 'Muli', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h7,
+dt{
+  font-family: 'Lora', serif;
 }
 header{
   background-color: $primaryColor;
@@ -26,34 +41,38 @@ main{
   .accordion{
     background-color: $primaryColor;
     color: $contrastColor;
-    border-radius:15px;
+    border-radius:$bdrs;
     box-shadow: 2px 5px 10px $shadowColor;
     padding: 0;
-    .accordion-header{
+    &-header{
       padding: 1em;
       border-bottom: 1px solid $thirdColor;
-      &.isActive,
+      &.is-active,
       &:hover{
         background-color: $shadowColor;
       }
       &:first-child{
-        border-radius:15px 15px 0 0;
+        border-radius:$bdrs $bdrs 0 0;
       }
       &:last-of-type{
         border-bottom: none;
+        border-radius: 0 0 $bdrs $bdrs;
+        &.is-active{
+          border-radius: 0;
+        }
       }
     }
-    .accordion-content{
+    &-content{
       margin: 0;
       padding: 0;
       background-color: $thirdColor;
       color: $primaryColor;
       display: none;
-      &.isActive{
+      &.is-active{
         padding: 0.5em;
         display: block;
         &:last-child{
-          border-radius: 0 0 15px 15px;
+          border-radius: 0 0 $bdrs $bdrs;
         }
       }
     }

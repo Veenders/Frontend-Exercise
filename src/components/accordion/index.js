@@ -1,51 +1,54 @@
-import AccordionElement from './AccordionElement';
+import AccordionElement from './AccordionElement'
 
 class Accordion {
   constructor(app,service){
-    this.App = app;
-    this.service = service;
+    this.app = app
+    this.service = service
   }
   init(){
-    this.createAccordion();
-    this.handleToggle();
+    this._createAccordion()
+    this._handleToggle()
   }
-  createAccordion(){
-    this.dl = document.createElement("DL");
-    this.dl.className='accordion';
-    this.addArticle()
-    this.App.appendChild(this.dl);
+  _createAccordion(){
+    this.dl = document.createElement("DL")
+    this.dl.className='accordion'
+    this._addArticle(this.dl)
+    this.app.appendChild(this.dl)
   }
-  async addArticle(){
-    const articles = await this.service.getArticles();
-    articles.forEach(article => {
-      const element = new AccordionElement(article,this.dl);
-      element.init();
-    });
+
+  _articleToAccordionItem (article) {
+    return new AccordionElement(article).createElement()
   }
-  handleToggle(){
-    this.dl.addEventListener('click',event => {
-      const target = event.target;
-      this.toggleElement(target);
+  async _addArticle(container){
+    const elements = (await this.service.getArticles())
+      .map(this._articleToAccordionItem)
+      .join('')
+    
+    container.insertAdjacentHTML('beforeend',elements)
+  }
+  _handleToggle(){
+    this.dl.addEventListener('click',({target}) => {
+      this._toggleElement(target)
     })
   }
-  toggleElement(target){
+  _toggleElement(target){
     const toogle = {
-      DT:()=>{
-        target.classList.contains('isActive') || this.hideElements(Array.from(this.dl.children));
-        this.showElements([target,target.nextElementSibling]);
+      dt:()=>{
+        target.classList.contains('is-active') || this._hideElements(Array.from(this.dl.children))
+        this._showElements([target,target.nextElementSibling])
       },
-      DD:()=>{this.hideElements([target.previousElementSibling,target]);},
-      P:()=>{this.hideElements([target.parentElement.previousElementSibling,target.parentElement]);}
+      dd:()=>{this._hideElements([target.previousElementSibling,target])},
+      p:()=>{this._hideElements([target.parentElement.previousElementSibling,target.parentElement])}
     }
 
-    toogle[target.tagName]();
+    toogle[target.tagName.toLowerCase()]()
   }
-  hideElements(elements = []){
-    elements.forEach(element => {element.classList.remove('isActive')})
+  _hideElements(elements = []){
+    elements.forEach(element => {element.classList.remove('is-active')})
   }
-  showElements(elements = []){
-    elements.forEach(element => {element.classList.toggle('isActive')})
+  _showElements(elements = []){
+    elements.forEach(element => {element.classList.toggle('is-active')})
   }
 }
 
-export default Accordion;
+export default Accordion
