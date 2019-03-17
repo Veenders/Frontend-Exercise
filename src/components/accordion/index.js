@@ -2,6 +2,8 @@ import AccordionElement from './AccordionElement'
 
 class Accordion {
   constructor(app,service){
+    if(!app) throw Error('Not Element to create the Accordion')
+    if(typeof service.getArticles !== 'function') throw Error('Service is not a correct service')
     this.app = app
     this.service = service
   }
